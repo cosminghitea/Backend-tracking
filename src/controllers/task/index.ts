@@ -51,7 +51,13 @@ function geTasksSchema(req: Request, res: Response, next: NextFunction) {
 }
 
 function getTasks(req: Request, res: Response, next: NextFunction) {
-  TaskService.find(req.body)
+  const { page, statusFilterBy, sortByOrder, sortBy } = req.query;
+  TaskService.find({
+    page: parseInt(<string>page, 10),
+    statusFilterBy: <string>statusFilterBy,
+    sortBy: <string>sortBy,
+    sortByOrder: <string>sortByOrder,
+  })
     .then((result) => res.status(200).json(result))
     .catch(next);
 }
