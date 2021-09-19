@@ -52,6 +52,7 @@ function geTasksSchema(req: Request, res: Response, next: NextFunction) {
 
 function getTasks(req: Request, res: Response, next: NextFunction) {
   const { page, statusFilterBy, sortByOrder, sortBy } = req.query;
+  console.log(req.query);
   TaskService.find({
     page: parseInt(<string>page, 10),
     statusFilterBy: <string>statusFilterBy,
