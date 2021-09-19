@@ -48,7 +48,8 @@ export async function update(params: ITaskObject): Promise<any> {
   if (['DONE', 'FAILED'].includes(task.status)) {
     throw 'Task "' + params.name + '" is closed';
   }
-  await db.Task.update({ status: task.status }, { where: { id: params.id } });
+
+  await db.Task.update({ status: params.status }, { where: { id: params.id } });
   return {
     message: 'Task was updated successfully',
   };
