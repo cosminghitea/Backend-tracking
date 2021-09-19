@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { Sequelize } from 'sequelize';
 import UserModel from './Models/UserModel';
+import TaskModel from './Models/TaskModel';
 
 const db: any = {};
 
@@ -30,6 +31,7 @@ async function initialize() {
   });
 
   db.User = UserModel(sequelize);
+  db.Task = TaskModel(sequelize);
 
   await sequelize.sync();
 }

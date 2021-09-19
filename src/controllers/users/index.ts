@@ -6,7 +6,7 @@ import { UserService } from '../../services';
 
 const router = Router();
 
-router.post('/authenticate', authenticateSchema, authenticate);
+router.post('/login', authenticateSchema, authenticate);
 router.post('/register', registerSchema, register);
 router.get('/logout', UserService.authorization, logout);
 

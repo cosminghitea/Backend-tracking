@@ -3,9 +3,11 @@ import cors from 'cors';
 import { urlencoded, json } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import https from 'https';
+import fs from 'fs';
 import 'dotenv/config';
 import { ErrorHandler } from './helper';
-import { userRouter } from './controllers';
+import { userRouter, taskRouter } from './controllers';
 import { UserService } from './services';
 
 const app = express();
@@ -17,12 +19,20 @@ app.use(cors());
 app.use(cookieParser());
 
 // routes
-app.use('/users', userRouter);
+app.use('/api/users', userRouter);
 
 app.use(ErrorHandler);
 
-app.use('/tasks', UserService.authorization);
+app.use('/api/tasks', UserService.authorization, taskRouter);
 
 const port =
   process.env.NODE_ENV === 'production' ? process.env.PORT || 80 : 4000;
-app.listen(port, () => console.log('Server listening on port ' + port));
+https
+  .createServer(
+    {
+      key: fs.readFileSync('./certs/server.key'),
+      cert: fs.readFileSync('./certs/server.cert'),
+    },
+    app
+  )
+  .listen(port, () => console.log('Server listening on port ' + port));
